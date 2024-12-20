@@ -147,6 +147,12 @@ content {
     height: 100px;
 }
 
+#allTasks {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 #projectBox {
     padding: 10px;
     margin-top:-10px;
@@ -164,8 +170,52 @@ content {
 
 .newTaskBox {
     background:white;
-    height: 300px;
+    height: 170px;
     width: 200px;
     border: black solid 1px;
     border-radius: 5%;
+    text-align: center;
+    margin: 5px;
+}
+
+.lowAlert {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(116, 180, 116);
+    width:100%;
+    height: 30px;
+    margin: 5px 0px 5px 0px;
+}
+
+.medAlert {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(180, 179, 116);
+    width:100%;
+    height: 30px;
+    margin: 5px 0px 5px 0px;
+}
+
+.highAlert {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(250, 179, 161);
+    width:100%;
+    height: 30px;
+    margin: 5px 0px 5px 0px;
+}
+
+.detailsButton {
+    background-color: rgb(197, 196, 196);
+    height: 30px;
+    width:150px;
+    border: black solid 1px;
+    margin:20px;
+    padding: 2px
 }

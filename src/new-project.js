@@ -174,6 +174,7 @@ const getUserProjectName = (function() {
     submitInput.addEventListener("click",()=>{
         submitProjectName();
         updateDisplayedProject();
+        displayProjectOnScreen();
     })
 
 
