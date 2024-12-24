@@ -17,6 +17,12 @@ function NewTask (projectName,title,description,dueDate,priority) {
       this.description = description;
       this.dueDate = dueDate;
       this.priority = priority;
+
+      // setter
+
+/*      set newPriority(updatedpriority) {
+        this.priority = updatedpriority;
+      } */
 }
 
 const taskData = (function () {

@@ -231,3 +231,45 @@ content {
     justify-content: top;
     text-align: center;
 }
+
+#priorityTitle {
+    margin-top: 20px;
+}
+
+#priorityLevelBox {
+    margin-top: 10px;
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    height:20px;
+}
+
+#lowPriorColor {
+    background: rgb(116, 180, 116);
+    width: 33%;
+    height:20px;
+}
+
+#medPriorColor {
+    background:  rgb(233, 231, 150);
+    width: 33%;
+    height:20px;
+}
+
+#highPriorColor {
+    background:  rgb(250, 179, 161);
+    width: 33%;
+    height:20px;
+}
+
+#lowPriorityIndicator {
+    text-align: left;
+}
+
+#medPriorityIndicator {
+    text-align: center;
+}
+
+#highPriorityIndicator {
+    text-align: right;
+}

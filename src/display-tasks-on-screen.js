@@ -1,7 +1,7 @@
 import { blurBackground } from "./blur-background.js";
 import {taskData} from "./formSubmit.js"
 import { switchOffOnBack } from "./taskForm.js";
-import {currentProject} from "./new-project.js"
+import {currentProject, updateDisplayedProject} from "./new-project.js"
 
 const displayProjectOnScreen = (function() {
     const projectTitleVar = document.getElementById("projectTitleBox");
@@ -111,14 +111,72 @@ const fullDetailsPopUp = (function(targetid) {
     taskDetailsBox.appendChild(taskDueDateBox);
     taskDetailsBox.appendChild(taskDescription);
 
-    const editPriority = document.createElement("div");
-    editPriority.classList="twoFormButton";
-    editPriority.innerText="Edit Priority";
-    editPriority.id="editPriorityButton";
-    editPriority.addEventListener("click",()=>{
-    console.log("edit priority");
-    })
+    const priorityTitle = document.createElement("div");
+    priorityTitle.id = "PriorTitle";
+    priorityTitle.innerText="Level of Priority :";
+    taskDetailsBox.appendChild(priorityTitle);
 
+
+    const priorityLevelBox = document.createElement("div");
+    priorityLevelBox.id = "priorityLevelBox";
+    taskDetailsBox.appendChild(priorityLevelBox);
+
+    const priorityIndicator = document.createElement("div");
+    priorityIndicator.innerText="^";
+    priorityIndicator.style.width="70%";
+    priorityTitle.style.height="20px"
+    if (pulledTask.priority==="Low") {
+        priorityIndicator.id="lowPriorityIndicator";
+    } else if (pulledTask.priority==="Medium") {
+        priorityIndicator.id="medPriorityIndicator";
+    }else {
+        priorityIndicator.id="highPriorityIndicator";
+    }
+
+    const lowPriorityColor = document.createElement("div");
+    lowPriorityColor.id = "lowPriorColor";
+    lowPriorityColor.innerText="Low"
+    lowPriorityColor.addEventListener("click", (e) => {
+    priorityIndicator.id="lowPriorityIndicator";
+    pulledTask.priority="Low"
+    console.log(pulledTask.priority)
+    })
+    priorityLevelBox.appendChild(lowPriorityColor);
+
+    const medPriorityColor = document.createElement("div");
+    medPriorityColor.id = "medPriorColor";
+    medPriorityColor.innerText="Medium";
+    medPriorityColor.addEventListener("click", (e) => {
+        priorityIndicator.id="medPriorityIndicator";
+        pulledTask.priority="Medium"
+        console.log(pulledTask.priority)
+        })
+    priorityLevelBox.appendChild(medPriorityColor);
+
+
+    const highPriorityColor = document.createElement("div");
+    highPriorityColor.id = "highPriorColor";
+    highPriorityColor.innerText="high";
+    highPriorityColor.addEventListener("click", (e) => {
+        priorityIndicator.id="highPriorityIndicator";
+        pulledTask.priority="High"
+        console.log(pulledTask.priority)    
+    })
+    priorityLevelBox.appendChild(highPriorityColor);
+
+
+    console.log(pulledTask.priority)
+
+
+    taskDetailsBox.appendChild(priorityIndicator);
+
+    const deleteToDo = document.createElement("div");
+    deleteToDo.classList="twoFormButton";
+    deleteToDo.innerText="Delete";
+    taskDetailsBox.addEventListener("click", () {
+        console.log(deleted);
+    })
+    taskDetailsBox.appendChild(deleteToDo);
 
     const closeTaskDetails = document.createElement("div");
     closeTaskDetails.classList="twoFormButton";
@@ -127,9 +185,9 @@ const fullDetailsPopUp = (function(targetid) {
     closeTaskDetails.addEventListener("click",()=>{
         switchOffOnBack();
         removeDetailsBox();
+        displayProjectOnScreen();
     })
 
-    taskDetailsBox.appendChild(editPriority);
     taskDetailsBox.appendChild(closeTaskDetails);
 })
 
