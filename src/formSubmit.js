@@ -9,8 +9,6 @@ class newTask {
 }
 */
 
-
-
 function NewTask (projectName,title,description,dueDate,priority) {
       this.projectName = projectName;
       this.title = title;
@@ -37,9 +35,17 @@ const taskData = (function () {
         tasks.push(task);
     })
 
+    const removeTask = (function (taskId) {
+
+        const findIndex = tasks.findIndex(a => a.title === taskId);
+        tasks.splice(findIndex , 1)
+        console.log(tasks)
+    })
+
     return {
         getTasks,
-        pushToTasks
+        pushToTasks,
+        removeTask
     }
 })();
 

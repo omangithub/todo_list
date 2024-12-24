@@ -1,7 +1,7 @@
 import { blurBackground } from "./blur-background.js";
 import {taskData} from "./formSubmit.js"
 import { switchOffOnBack } from "./taskForm.js";
-import {currentProject, updateDisplayedProject} from "./new-project.js"
+import {currentProject} from "./new-project.js"
 
 const displayProjectOnScreen = (function() {
     const projectTitleVar = document.getElementById("projectTitleBox");
@@ -76,18 +76,20 @@ const buildTaskBox = (function(task) {
 
 const fullDetailsPopUp = (function(targetid) {
 
-    let taskVar = taskData.getTasks();
-
     let pulledTask = {};
 
-    let taskId = targetid.replace ("details", "");
+    let taskVar = taskData.getTasks();
 
+    let taskId = targetid.replace ("details", "");
+    
     taskVar.forEach((function(item) {
-     
+         
         if (taskId===item.title) {
             pulledTask = item;
         }
     }))
+
+    console.log (pulledTask)
 
     const blurBackgroundBox = document.getElementById("body")
     const taskDetailsBox = document.createElement("div");
@@ -139,7 +141,6 @@ const fullDetailsPopUp = (function(targetid) {
     lowPriorityColor.addEventListener("click", (e) => {
     priorityIndicator.id="lowPriorityIndicator";
     pulledTask.priority="Low"
-    console.log(pulledTask.priority)
     })
     priorityLevelBox.appendChild(lowPriorityColor);
 
@@ -149,7 +150,6 @@ const fullDetailsPopUp = (function(targetid) {
     medPriorityColor.addEventListener("click", (e) => {
         priorityIndicator.id="medPriorityIndicator";
         pulledTask.priority="Medium"
-        console.log(pulledTask.priority)
         })
     priorityLevelBox.appendChild(medPriorityColor);
 
@@ -160,23 +160,24 @@ const fullDetailsPopUp = (function(targetid) {
     highPriorityColor.addEventListener("click", (e) => {
         priorityIndicator.id="highPriorityIndicator";
         pulledTask.priority="High"
-        console.log(pulledTask.priority)    
     })
     priorityLevelBox.appendChild(highPriorityColor);
 
-
-    console.log(pulledTask.priority)
 
 
     taskDetailsBox.appendChild(priorityIndicator);
 
     const deleteToDo = document.createElement("div");
     deleteToDo.classList="twoFormButton";
-    deleteToDo.innerText="Delete";
-    taskDetailsBox.addEventListener("click", () {
-        console.log(deleted);
+    deleteToDo.innerText="Delete ToDo";
+    deleteToDo.addEventListener("click", ()=> {
+        taskData.removeTask(taskId);
+        switchOffOnBack();
+        removeDetailsBox();
+        displayProjectOnScreen();
     })
     taskDetailsBox.appendChild(deleteToDo);
+
 
     const closeTaskDetails = document.createElement("div");
     closeTaskDetails.classList="twoFormButton";
@@ -188,13 +189,24 @@ const fullDetailsPopUp = (function(targetid) {
         displayProjectOnScreen();
     })
 
+
     taskDetailsBox.appendChild(closeTaskDetails);
+
+    const getPulledTask = (function() {
+        return pulledTask
+    })
+
+    return {
+        getPulledTask
+    }
+
 })
 
 const removeDetailsBox = (function () {
+
     const bodyBox = document.getElementById("body");
     const blurBackgroundBox = document.getElementById("blurBackground");
-    const taskBox = document.getElementById("detailsBox")
+    const taskBox = document.getElementById("detailsBox");
 
     while (taskBox.hasChildNodes===true) {
         taskBox.removeChild(taskBox.lastChild);
