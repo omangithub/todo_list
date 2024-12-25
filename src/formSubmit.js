@@ -38,8 +38,7 @@ const taskData = (function () {
     const removeTask = (function (taskId) {
 
         const findIndex = tasks.findIndex(a => a.title === taskId);
-        tasks.splice(findIndex , 1)
-        console.log(tasks)
+        if(findIndex!==-1) {tasks.splice(findIndex , 1)};
     })
 
     return {

@@ -1,10 +1,12 @@
 import "./styles.css"
 
+import{storeProject, retrieveProjectsBox} from "./storage.js"
+
 import { blurBackground } from "./blur-background.js";
 
 import {startUpSampleProject, questionBox, switchOffOnBack, backgroundVar} from "./taskForm.js";
 
-import {getUserProjectName, updateDisplayedProject} from "./new-project.js"
+import {getUserProjectName, updateDisplayedProject, newProject} from "./new-project.js"
 
 import { compareAsc, format } from "date-fns";
 
@@ -21,16 +23,17 @@ const onLoadScreen = (function() {
     startUpSampleProject();
     displayProjectOnScreen();
 
+
     //activate a new project
 
     const createProjectButton = document.getElementById("createProject");
 
     createProjectButton.addEventListener("click", ()=> {
+        if (turnOffBackgroundFunctions===false) {
         switchOffOnBack();
         blurBackground();
         getUserProjectName();
-        console.log("New project")
-    })
+    }})
 
     //active a new task
 
@@ -38,11 +41,27 @@ const onLoadScreen = (function() {
 
     createTaskButton.addEventListener("click", ()=>{
         if (turnOffBackgroundFunctions===false) {
-            console.log("here we are")
         switchOffOnBack();
         blurBackground();
         questionBox();
     }})
+
+    const saveProjectsButton = document.getElementById("saveProjects");
+
+    saveProjectsButton.addEventListener("click", ()=>{
+        if (turnOffBackgroundFunctions===false) {
+        storeProject();
+    }})
+
+    const retrieveProjectsButton = document.getElementById("retrieveProjects");
+
+    retrieveProjectsButton.addEventListener("click", ()=> {
+        if (turnOffBackgroundFunctions===false) {
+        switchOffOnBack();
+        blurBackground();
+        retrieveProjectsBox();
+    }})
+
 
 })();
 
