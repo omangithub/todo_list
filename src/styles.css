@@ -289,3 +289,18 @@ content {
     justify-content: top;
     text-align: center;
 }
+
+#savedProjectContainer {
+    width: 95%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.savedProject {
+    height: 40px;
+    width:100%;
+    border: 1px solid black;
+}

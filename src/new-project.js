@@ -92,15 +92,18 @@ const submitProjectName = (function() {
     const alertMessage = document.getElementById("projectDescText");
 
     let taskNumber = 0;
+    let projectArray = newProject.getProjects();
 
-    if (newProjectEntry.value!=="") {
+    if (newProjectEntry.value!=="" && !projectArray.includes(newProjectEntry.value)) {
         let project = newProjectEntry.value;
         newProject.addNewProject(project);
         removeProjectBox();
         switchOffOnBack();
         console.log(newProject.getProjects())
-    } else {
-        alertMessage.innerText="You cannot submit unless you have entered a project name."
+    } else if (projectArray.includes(newProjectEntry.value)) {
+        alertMessage.innerText="That project already exists."       
+        } else {
+    alertMessage.innerText="You cannot submit unless you have entered a project name."
     }
 
 })
@@ -109,6 +112,11 @@ const removeProjectBox = (function () {
     const bodyBox = document.getElementById("body");
     const blurBackgroundBox = document.getElementById("blurBackground");
     const form = document.getElementById("newProjectBox")
+
+
+    while (form.hasChildNodes===true) {
+        form.removeChild(form.lastChild);
+    }
 
     while (bodyBox.hasChildNodes===true) {
         bodyBox.removeChild(bodyBox.lastChild);

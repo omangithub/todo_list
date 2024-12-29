@@ -172,6 +172,37 @@ const questionBox = (function () {
 });
 
 // form submission
+const titleAlreadyExist = (function() {
+
+
+    let registerTrue = false;
+
+    const titleAlreadyInUse = (function(title) {
+
+        let projectsArray = taskData.getTasks();
+
+
+        for (let i=0;i<projectsArray.length;i++) {
+            if(projectsArray[i].title===title) {
+            registerTrue=true;
+        }}; 
+    })
+
+    const resetRegister = (function() {
+        registerTrue=false
+    })
+
+    const getRegister = (function() {
+        return registerTrue
+    })
+
+    return {
+        titleAlreadyInUse,
+        resetRegister,
+        getRegister
+    }  
+
+    })();
 
 const formSubmit = (function () {
     const titleEntry = document.getElementById("titleId");
@@ -180,15 +211,20 @@ const formSubmit = (function () {
     const priorityEntry = document.getElementById("priorityId");
     const alertMessage = document.getElementById("newTaskDesc");
     let projectName=currentProject.getCurrentProject();
+    titleAlreadyExist.titleAlreadyInUse(titleEntry.value);
+    let checkIfTitleExists = titleAlreadyExist.getRegister();
 
     let taskNumber = 0;
 
-    if (titleEntry.value!=="" && descEntry.value!=="" && dueEntry.value!== "" && priorityEntry.value!=="") {
+    if (titleEntry.value!=="" && descEntry.value!=="" && dueEntry.value!== "" && priorityEntry.value!=="" && !checkIfTitleExists) {
         let task = new NewTask (projectName,titleEntry.value,descEntry.value,dueEntry.value,priorityEntry.value);
         taskData.pushToTasks(task);
         removeQuestionBox();
         switchOffOnBack();
         console.log(taskData.getTasks())
+    } else if (checkIfTitleExists) {
+        titleAlreadyExist.resetRegister();
+        alertMessage.innerText="You must choose a unique title for your task."        
     } else {
         alertMessage.innerText="You cannot submit unless you have filled in all of the fields below."
     }
