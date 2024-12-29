@@ -1,3 +1,4 @@
+import { blurBackground } from "./blur-background.js";
 import { displayProjectOnScreen } from "./display-tasks-on-screen.js";
 import {taskData} from "./formSubmit.js"
 import { newProject, updateDisplayedProject } from "./new-project.js";
@@ -5,8 +6,9 @@ import { switchOffOnBack } from "./taskForm.js";
 
 export const storeProject = () => {
     let projectsForStorage = taskData.getTasks();
+
     projectsForStorage.forEach((item) => { 
-    
+
     let storageNumber = localStorage.length+1;
 
     const projectTasks = {
@@ -16,9 +18,16 @@ export const storeProject = () => {
         dueDate : item.dueDate,
         priority : item.priority
 }
+    checkIfTitleExistsInStorage.checkIfExistsInStorage(projectTasks.title)
+    let currentlyInStorage = checkIfTitleExistsInStorage.getExistsInStorage();
+    if (!currentlyInStorage) {
     localStorage.setItem(storageNumber, JSON.stringify(projectTasks));
-})
-    console.log(localStorage)
+}else{
+    blurBackground();
+    console.log("Create an alert");
+    checkIfTitleExistsInStorage.resetExistsInStorage();
+}})
+
 };
 
 const retrieveProjects = (function() {
@@ -66,6 +75,40 @@ const retrieveProjects = (function() {
         pushSavedProjectToCurrentProjects
     }
 })();
+
+const checkIfTitleExistsInStorage = (function () {
+
+    let currentStorageArray = retrieveProjects.getImportedProjects();
+
+    let existsInStorage = false;
+
+retrieveProjects.pullProjectsFromStorage();
+
+console.log(currentStorageArray)
+
+    const checkIfExistsInStorage = (function(title) {
+        for (let i=0;i<localStorage.length;i++) {
+            if (currentStorageArray[i].title===title) {
+                existsInStorage=true;
+            }
+    }})
+
+    const resetExistsInStorage = (function() {
+        existsInStorage=false;
+    })
+
+    const getExistsInStorage = (function() {
+        return existsInStorage
+    })
+
+    return {
+        checkIfExistsInStorage,
+        resetExistsInStorage,
+        getExistsInStorage
+    }
+
+})();
+
 
 export const retrieveProjectsBox = (function() {
 

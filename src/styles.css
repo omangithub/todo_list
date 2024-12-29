@@ -280,7 +280,7 @@ content {
 
 #retrieveProjectBox {
     width:400px;
-    height: 300px;
+    padding:20px;
     border: 1px solid black;
     box-shadow: 1px 5px 5px 1px black;
     display: flex;
