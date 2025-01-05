@@ -1,14 +1,14 @@
 import "./styles.css"
 
-import{storeProject, retrieveProjectsBox} from "./storage.js"
+import {deleteProjectBox} from "./deleteproject.js";
+
+import{storeProject, retrieveProjectsBox} from "./storage.js";
 
 import { blurBackground } from "./blur-background.js";
 
 import {startUpSampleProject, questionBox, switchOffOnBack, backgroundVar} from "./taskForm.js";
 
-import {getUserProjectName, updateDisplayedProject, newProject} from "./new-project.js"
-
-import { compareAsc, format } from "date-fns";
+import {getUserProjectName, updateDisplayedProject, newProject} from "./new-project.js";
 
 import {displayProjectOnScreen} from "./display-tasks-on-screen.js"
 
@@ -51,6 +51,7 @@ const onLoadScreen = (function() {
     saveProjectsButton.addEventListener("click", ()=>{
         if (turnOffBackgroundFunctions===false) {
         storeProject();
+        displayProjectOnScreen();
     }})
 
     const retrieveProjectsButton = document.getElementById("retrieveProjects");
@@ -62,6 +63,14 @@ const onLoadScreen = (function() {
         retrieveProjectsBox();
     }})
 
+    const deleteProjectButton = document.getElementById("deleteProject");
+
+    deleteProjectButton.addEventListener("click", ()=> {
+        if (turnOffBackgroundFunctions===false) {
+        switchOffOnBack();
+        blurBackground();
+        deleteProjectBox();
+    }})
 
 })();
 
@@ -90,20 +99,3 @@ Make sure your app doesn’t crash if the data you may want to retrieve from loc
 You can inspect data you saved in localStorage using DevTools! To do this, open the Application tab in DevTools and click on the Local Storage tab under Storage. Every time you add, update and delete data from localStorage in your app, those changes will be reflected in DevTools.
 localStorage uses JSON to send and store data, and when you retrieve the data, it will also be in JSON format. Keep in mind you cannot store functions in JSON, so you’ll have to figure out how to add methods back to your object properties once you fetch them. Good luck!
 */
-
-/*
-
-format(new Date(2014, 1, 11), "yyyy-MM-dd");
-//=> '2014-02-11'
-
-const dates = [
-  new Date(1995, 6, 2),
-  new Date(1987, 1, 11),
-  new Date(1989, 6, 10),
-];
-dates.sort(compareAsc);
-//=> [
-//   Wed Feb 11 1987 00:00:00,
-//   Mon Jul 10 1989 00:00:00,
-//   Sun Jul 02 1995 00:00:00
-// ] */

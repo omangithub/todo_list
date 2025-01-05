@@ -23,12 +23,45 @@ export const storeProject = () => {
     if (!currentlyInStorage) {
     localStorage.setItem(storageNumber, JSON.stringify(projectTasks));
 }else{
+    switchOffOnBack();
     blurBackground();
-    console.log("Create an alert");
+    alertBoxCannotStore();
     checkIfTitleExistsInStorage.resetExistsInStorage();
 }})
 
 };
+
+const alertBoxCannotStore = (function() {
+    const blurBackgroundBox = document.getElementById("body")
+    const alertBox = document.createElement("div");
+    alertBox.style.position="absolute";
+    alertBox.style.background="white";
+    alertBox.style.top = "10%";
+    alertBox.style.left= "40%";
+    alertBox.style.zIndex = "1"
+    alertBox.id="alertBox"
+    blurBackgroundBox.appendChild(alertBox);
+
+    const alertText = document.createElement("div");
+    alertText.innerText="A task with that title already exists in storage. Rename your current task.";
+    alertText.classList="formDescription";
+    alertText.id="alertText";
+
+    alertBox.appendChild(alertText);
+
+    const closeBox = document.createElement("div");
+    closeBox.classList="twoFormButton";
+    closeBox.innerText="Close";
+    closeBox.id="cancelProjectForm";
+    closeBox.addEventListener("click",()=>{
+        switchOffOnBack();
+        removeStorageBox("alertBox");
+    })
+
+    alertBox.appendChild(closeBox)
+
+
+})
 
 const retrieveProjects = (function() {
 
@@ -88,9 +121,11 @@ console.log(currentStorageArray)
 
     const checkIfExistsInStorage = (function(title) {
         for (let i=0;i<localStorage.length;i++) {
+            if (currentStorageArray[i]) {
             if (currentStorageArray[i].title===title) {
                 existsInStorage=true;
             }
+        }
     }})
 
     const resetExistsInStorage = (function() {
@@ -184,7 +219,7 @@ export const retrieveProjectsBox = (function() {
     closeBox.id="cancelProjectForm";
     closeBox.addEventListener("click",()=>{
         switchOffOnBack();
-        removeStorageBox();
+        removeStorageBox("retrieveProjectBox");
     })
 
     retrieveProjectsBox.appendChild(closeBox)
@@ -252,10 +287,11 @@ const clearStorage = () => {
     localStorage.clear();
 }
 
-const removeStorageBox = (function () {
+const removeStorageBox = (function (box) {
+    console.log(box);
     const bodyBox = document.getElementById("body");
     const blurBackgroundBox = document.getElementById("blurBackground");
-    const form = document.getElementById("retrieveProjectBox")
+    const form = document.getElementById(box)
 
     while (form.hasChildNodes===true) {
         form.removeChild(form.lastChild);

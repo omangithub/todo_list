@@ -1,7 +1,9 @@
 import { blurBackground } from "./blur-background.js";
-import {taskData} from "./formSubmit.js"
+import {taskData} from "./formSubmit.js";
 import { switchOffOnBack } from "./taskForm.js";
-import {currentProject} from "./new-project.js"
+import {currentProject} from "./new-project.js";
+import { compareAsc, format } from "date-fns";
+
 
 const displayProjectOnScreen = (function() {
     const projectTitleVar = document.getElementById("projectTitleBox");
@@ -35,8 +37,6 @@ const buildTaskBox = (function(task) {
     newTask.classList="newTaskBox"
     newTask.innerText="Task : " + task.title;
 
-    // priority
-
     const priorityAlertBar = document.createElement("div");
     const priorityText = document.createElement("div");
     if (task.priority==="Low") {     
@@ -50,8 +50,6 @@ const buildTaskBox = (function(task) {
     priorityText.innerText=task.priority + " Priority";
     newTask.appendChild(priorityAlertBar);
     priorityAlertBar.appendChild(priorityText);
-
-    // due date
 
     const dueDateBox = document.createElement("div");
     dueDateBox.innerText="Due Date : " + task.dueDate;
@@ -89,8 +87,6 @@ const fullDetailsPopUp = (function(targetid) {
         }
     }))
 
-    console.log (pulledTask)
-
     const blurBackgroundBox = document.getElementById("body")
     const taskDetailsBox = document.createElement("div");
     taskDetailsBox.style.position="absolute";
@@ -104,6 +100,7 @@ const fullDetailsPopUp = (function(targetid) {
     const taskTitle = document.createElement('div');
     taskTitle.innerText="Task : " + pulledTask.title;
     const taskDueDateBox = document.createElement("div");
+    console.log(pulledTask.dueDate)
     taskDueDateBox.innerText="Due Date : " + pulledTask.dueDate;
 
     const taskDescription = document.createElement("div");

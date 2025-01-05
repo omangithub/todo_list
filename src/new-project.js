@@ -18,11 +18,19 @@ const newProject = (function () {
         projectsArray.pop();
     })
 
+    const deleteFromProjectArray = (function(project) {
+        let projectToBeRemoved = projectsArray.findIndex((i)=>i===project);
+        console.log(projectToBeRemoved);
+        if (projectToBeRemoved!=="Default_Project") {
+        projectsArray.splice(projectToBeRemoved, 1);
+}})
+
 
      return {
         getProjects,
         addNewProject,
-        popProjectArray
+        popProjectArray,
+        deleteFromProjectArray
      }
 })();
 

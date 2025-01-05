@@ -41,10 +41,18 @@ const taskData = (function () {
         if(findIndex!==-1) {tasks.splice(findIndex , 1)};
     })
 
+    const removeProject = (function (project) {
+
+        const findIndex = tasks.findIndex(a => a.projectName === project);
+        if(findIndex!==-1) {tasks.splice(findIndex , 1)};
+    })
+
+
     return {
         getTasks,
         pushToTasks,
-        removeTask
+        removeTask,
+        removeProject
     }
 })();
 
