@@ -5,6 +5,14 @@
     box-sizing: border-box;
 }
 
+.hidden {
+    display:none;
+}
+
+.positionAbsolute {
+    position:absolute;
+}
+
 html {
     height:100%;
 }

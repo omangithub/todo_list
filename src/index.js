@@ -8,7 +8,7 @@ import { blurBackground } from "./blur-background.js";
 
 import {startUpSampleProject, questionBox, switchOffOnBack, backgroundVar} from "./taskForm.js";
 
-import {getUserProjectName, updateDisplayedProject, newProject} from "./new-project.js";
+import {getUserProjectName, updateDisplayedProject} from "./new-project.js";
 
 import {displayProjectOnScreen} from "./display-tasks-on-screen.js"
 
@@ -22,16 +22,19 @@ const onLoadScreen = (function() {
     updateDisplayedProject();
     startUpSampleProject();
     displayProjectOnScreen();
-
+    blurBackground();
+    questionBox();
 
     //activate a new project
 
+    const blurBack = document.getElementById("blurBackground");
     const createProjectButton = document.getElementById("createProject");
+    const openQuestionBox = document.getElementById("questions")
 
     createProjectButton.addEventListener("click", ()=> {
         if (turnOffBackgroundFunctions===false) {
         switchOffOnBack();
-        blurBackground();
+        blurBack.classList.toggle("hidden");
         getUserProjectName();
     }})
 
@@ -42,8 +45,9 @@ const onLoadScreen = (function() {
     createTaskButton.addEventListener("click", ()=>{
         if (turnOffBackgroundFunctions===false) {
         switchOffOnBack();
-        blurBackground();
-        questionBox();
+        blurBack.classList.toggle("hidden");
+        openQuestionBox.classList.toggle("hidden");
+        openQuestionBox.classList.toggle("positionAbsolute");
     }})
 
     const saveProjectsButton = document.getElementById("saveProjects");
@@ -59,7 +63,7 @@ const onLoadScreen = (function() {
     retrieveProjectsButton.addEventListener("click", ()=> {
         if (turnOffBackgroundFunctions===false) {
         switchOffOnBack();
-        blurBackground();
+        blurBackground.classList.toggle("hidden");
         retrieveProjectsBox();
     }})
 
@@ -68,7 +72,7 @@ const onLoadScreen = (function() {
     deleteProjectButton.addEventListener("click", ()=> {
         if (turnOffBackgroundFunctions===false) {
         switchOffOnBack();
-        blurBackground();
+        blurBackground.classList.toggle("hidden");
         deleteProjectBox();
     }})
 

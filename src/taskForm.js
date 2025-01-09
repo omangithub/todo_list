@@ -5,7 +5,6 @@ import { currentProject } from "./new-project.js";
 const switchBetweenBackgroundOnOrOff = (function() {
 
     let turnOffBackgroundFunctions=false
-    const blurBackgroundBox = document.getElementById("blurBackground")
 
     const backgroundSwitch = (function() {
     if (turnOffBackgroundFunctions===false) {
@@ -34,32 +33,18 @@ const switchOffOnBack = (function () {
     return switchBetweenBackgroundOnOrOff.backgroundSwitch();
 })
 
-const removeQuestionBox = (function () {
-    const bodyBox = document.getElementById("body");
-    const blurBackgroundBox = document.getElementById("blurBackground");
-    const form = document.getElementById("questions")
-
-    while (bodyBox.hasChildNodes===true) {
-        bodyBox.removeChild(bodyBox.lastChild);
-    }
-
-    bodyBox.removeChild(blurBackgroundBox);
-    bodyBox.removeChild(form);
-})
-
-
 const questionBox = (function () {
 
     const blurBackgroundBox = document.getElementById("body")
   const newContainer = document.createElement("div");
-  newContainer.style.position="absolute";
+  newContainer.classList="hidden, positionAbsolute";
+  newContainer.classList.toggle("positionAbsolute");
   newContainer.style.background="white";
   newContainer.style.top = "10%";
   newContainer.style.left= "40%";
   newContainer.style.zIndex = "1"
   newContainer.id="questions"
   blurBackgroundBox.appendChild(newContainer);
-
     // create question boxes for form title, description, dueDate and priority
 
 
@@ -150,7 +135,8 @@ const questionBox = (function () {
     cancelInput.innerText="Cancel";
     cancelInput.id="cancelForm";
     cancelInput.addEventListener("click",()=>{
-        formCancel();
+        removeQuestionBox();
+        switchOffOnBack();
     })
 
 
@@ -239,12 +225,14 @@ const startUpSampleProject = (function () {
     taskData.pushToTasks(sampleTask);
     console.log(taskData.getTasks())
 
+});
+
+const removeQuestionBox = (function () {
+    const closeQuestionsBox = document.getElementById("questions");
+    const blurBack = document.getElementById("blurBackground")
+    closeQuestionsBox.classList.toggle("hidden");
+    closeQuestionsBox.classList.toggle("positionAbsolute");
+    blurBack.classList.toggle("hidden");
 })
 
-
-const formCancel = (function() {
-    removeQuestionBox();
-    switchOffOnBack();
-})
-
-export {questionBox, switchOffOnBack, backgroundVar, removeQuestionBox, formCancel, startUpSampleProject}
+export {questionBox, switchOffOnBack, backgroundVar, startUpSampleProject}

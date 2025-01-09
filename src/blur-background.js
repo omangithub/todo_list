@@ -10,6 +10,7 @@ const blurBackground = (function () {
     blurBackgroundContainer.style.position="absolute";
     blurBackgroundContainer.style.top = "0%";
     blurBackgroundContainer.style.left= "0%";
+    blurBackgroundContainer.classList="hidden"
     background.appendChild(blurBackgroundContainer);
 });
 
