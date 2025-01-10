@@ -1,17 +1,18 @@
-import {switchOffOnBack} from "./taskForm.js";
-
 import { currentProject, newProject, updateDisplayedProject } from "./new-project.js";
 
 import { taskData } from "./formSubmit.js";
 
 import {displayProjectOnScreen} from "./display-tasks-on-screen.js"
 
+import { removeBox } from "./taskForm.js";
+
 export const deleteProjectBox = (function() {
     
 
     const blurBackgroundBox = document.getElementById("body")
     const deleteProjectContainer = document.createElement("div");
-    deleteProjectContainer.style.position="absolute";
+    deleteProjectContainer.classList="hidden, positionAbsolute";
+    deleteProjectContainer.classList.toggle("positionAbsolute");
     deleteProjectContainer.style.background="white";
     deleteProjectContainer.style.top = "10%";
     deleteProjectContainer.style.left= "40%";
@@ -31,8 +32,7 @@ export const deleteProjectBox = (function() {
     confirmDeleteButton.id="confirmButton";
     confirmDeleteButton.addEventListener("click",()=>{
     deleteProjectFunc();
-    removeDeleteBox();
-    switchOffOnBack();
+    removeBox("deleteProjectCont");
     updateDisplayedProject();
     displayProjectOnScreen();
 })

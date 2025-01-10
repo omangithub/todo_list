@@ -1,5 +1,5 @@
 import { displayProjectOnScreen } from "./display-tasks-on-screen.js";
-import { switchOffOnBack } from "./taskForm.js";
+import { removeBox } from "./taskForm.js";
 
 const newProject = (function () {
 
@@ -59,14 +59,11 @@ const updateDisplayedProject = (function() {
 
     while (projectSpace.hasChildNodes()===true) {
         projectSpace.removeChild(projectSpace.lastChild);
-        console.log("child")
     }
 
     if (projectArray[0]==="") {
         newProject.popProjectArray();
         newProject.addNewProject("Default_Project");
-        console.log(projectArray)
-
     }
     
     for (let i=0;i<=projectArray.length;i++) {
@@ -96,18 +93,15 @@ const updateDisplayedProject = (function() {
 
 
 const submitProjectName = (function() {
+
     const newProjectEntry = document.getElementById("projectNameId");
     const alertMessage = document.getElementById("projectDescText");
-
-    let taskNumber = 0;
     let projectArray = newProject.getProjects();
 
     if (newProjectEntry.value!=="" && !projectArray.includes(newProjectEntry.value)) {
         let project = newProjectEntry.value;
         newProject.addNewProject(project);
-        removeProjectBox();
-        switchOffOnBack();
-        console.log(newProject.getProjects())
+        removeBox("newProjectBox");
     } else if (projectArray.includes(newProjectEntry.value)) {
         alertMessage.innerText="That project already exists."       
         } else {
@@ -116,29 +110,12 @@ const submitProjectName = (function() {
 
 })
 
-const removeProjectBox = (function () {
-    const bodyBox = document.getElementById("body");
-    const blurBackgroundBox = document.getElementById("blurBackground");
-    const form = document.getElementById("newProjectBox")
-
-
-    while (form.hasChildNodes===true) {
-        form.removeChild(form.lastChild);
-    }
-
-    while (bodyBox.hasChildNodes===true) {
-        bodyBox.removeChild(bodyBox.lastChild);
-    }
-
-    bodyBox.removeChild(blurBackgroundBox);
-    bodyBox.removeChild(form);
-})
-
 const getUserProjectName = (function() {
 
     const blurBackgroundBox = document.getElementById("body")
     const projectNameBox = document.createElement("div");
-    projectNameBox.style.position="absolute";
+    projectNameBox.classList="hidden, positionAbsolute";
+    projectNameBox.classList.toggle("positionAbsolute");
     projectNameBox.style.background="white";
     projectNameBox.style.top = "10%";
     projectNameBox.style.left= "40%";
@@ -199,8 +176,7 @@ const getUserProjectName = (function() {
     cancelInput.innerText="Cancel";
     cancelInput.id="cancelProjectForm";
     cancelInput.addEventListener("click",()=>{
-        switchOffOnBack();
-        removeProjectBox();
+        removeBox("newProjectBox");
     })
 
     projectNameBox.appendChild(buttonBox)

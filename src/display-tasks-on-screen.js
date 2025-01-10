@@ -1,8 +1,6 @@
-import { blurBackground } from "./blur-background.js";
+import { whichThreeEndSoonest } from "./endsoon.js";
 import {taskData} from "./formSubmit.js";
-import { switchOffOnBack } from "./taskForm.js";
 import {currentProject} from "./new-project.js";
-import { compareAsc, format } from "date-fns";
 
 
 const displayProjectOnScreen = (function() {
@@ -20,6 +18,8 @@ const displayProjectOnScreen = (function() {
         buildTaskBox(item);
     }})
 
+    console.log(taskVar)
+    whichThreeEndSoonest(taskVar);
 })
 
 const clearTaskBox = (function() {
@@ -60,11 +60,9 @@ const buildTaskBox = (function(task) {
     details.innerText="Full details";
     details.id=task.title + "details"
     details.addEventListener("click",(e) => {
-        console.log(e.target.id)
-        switchOffOnBack();
-        blurBackground();
+        const blurBack = document.getElementById("blurBackground");
+        blurBack.classList.toggle("hidden");
         fullDetailsPopUp(e.target.id);
-        console.log ("details screen")
     })
     newTask.appendChild(details);
 
@@ -100,7 +98,6 @@ const fullDetailsPopUp = (function(targetid) {
     const taskTitle = document.createElement('div');
     taskTitle.innerText="Task : " + pulledTask.title;
     const taskDueDateBox = document.createElement("div");
-    console.log(pulledTask.dueDate)
     taskDueDateBox.innerText="Due Date : " + pulledTask.dueDate;
 
     const taskDescription = document.createElement("div");
@@ -150,7 +147,6 @@ const fullDetailsPopUp = (function(targetid) {
         })
     priorityLevelBox.appendChild(medPriorityColor);
 
-
     const highPriorityColor = document.createElement("div");
     highPriorityColor.id = "highPriorColor";
     highPriorityColor.innerText="high";
@@ -160,8 +156,6 @@ const fullDetailsPopUp = (function(targetid) {
     })
     priorityLevelBox.appendChild(highPriorityColor);
 
-
-
     taskDetailsBox.appendChild(priorityIndicator);
 
     const deleteToDo = document.createElement("div");
@@ -169,7 +163,6 @@ const fullDetailsPopUp = (function(targetid) {
     deleteToDo.innerText="Delete ToDo";
     deleteToDo.addEventListener("click", ()=> {
         taskData.removeTask(taskId);
-        switchOffOnBack();
         removeDetailsBox();
         displayProjectOnScreen();
     })
@@ -181,9 +174,10 @@ const fullDetailsPopUp = (function(targetid) {
     closeTaskDetails.innerText="Close";
     closeTaskDetails.id="closeTaskDetails";
     closeTaskDetails.addEventListener("click",()=>{
-        switchOffOnBack();
         removeDetailsBox();
         displayProjectOnScreen();
+        const blurBack = document.getElementById("blurBackground");
+        blurBack.classList.toggle("hidden");
     })
 
 
@@ -202,15 +196,12 @@ const fullDetailsPopUp = (function(targetid) {
 const removeDetailsBox = (function () {
 
     const bodyBox = document.getElementById("body");
-    const blurBackgroundBox = document.getElementById("blurBackground");
     const taskBox = document.getElementById("detailsBox");
 
     while (taskBox.hasChildNodes===true) {
         taskBox.removeChild(taskBox.lastChild);
     }
 
-
-    bodyBox.removeChild(blurBackgroundBox);
     bodyBox.removeChild(taskBox)
 })
 

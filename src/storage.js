@@ -2,7 +2,7 @@ import { blurBackground } from "./blur-background.js";
 import { displayProjectOnScreen } from "./display-tasks-on-screen.js";
 import {taskData} from "./formSubmit.js"
 import { newProject, updateDisplayedProject } from "./new-project.js";
-import { switchOffOnBack } from "./taskForm.js";
+import { removeBox } from "./taskForm.js";
 
 export const storeProject = () => {
     let projectsForStorage = taskData.getTasks();
@@ -23,8 +23,9 @@ export const storeProject = () => {
     if (!currentlyInStorage) {
     localStorage.setItem(storageNumber, JSON.stringify(projectTasks));
 }else{
-    switchOffOnBack();
-    blurBackground();
+    console.log("hello")
+    const blurBack = document.getElementById("blurBackground");
+    blurBack.classList.toggle("hidden");
     alertBoxCannotStore();
     checkIfTitleExistsInStorage.resetExistsInStorage();
 }})
@@ -34,7 +35,8 @@ export const storeProject = () => {
 const alertBoxCannotStore = (function() {
     const blurBackgroundBox = document.getElementById("body")
     const alertBox = document.createElement("div");
-    alertBox.style.position="absolute";
+    alertBox.classList="hidden, positionAbsolute";
+    alertBox.classList.toggle("positionAbsolute");
     alertBox.style.background="white";
     alertBox.style.top = "10%";
     alertBox.style.left= "40%";
@@ -54,8 +56,7 @@ const alertBoxCannotStore = (function() {
     closeBox.innerText="Close";
     closeBox.id="cancelProjectForm";
     closeBox.addEventListener("click",()=>{
-        switchOffOnBack();
-        removeStorageBox("alertBox");
+        removeBox("alertBox");
     })
 
     alertBox.appendChild(closeBox)
@@ -115,9 +116,7 @@ const checkIfTitleExistsInStorage = (function () {
 
     let existsInStorage = false;
 
-retrieveProjects.pullProjectsFromStorage();
-
-console.log(currentStorageArray)
+    retrieveProjects.pullProjectsFromStorage();
 
     const checkIfExistsInStorage = (function(title) {
         for (let i=0;i<localStorage.length;i++) {
@@ -149,7 +148,8 @@ export const retrieveProjectsBox = (function() {
 
     const blurBackgroundBox = document.getElementById("body")
     const retrieveProjectsBox = document.createElement("div");
-    retrieveProjectsBox.style.position="absolute";
+    retrieveProjectsBox.classList="hidden, positionAbsolute";
+    retrieveProjectsBox.classList.toggle("positionAbsolute");
     retrieveProjectsBox.style.background="white";
     retrieveProjectsBox.style.top = "10%";
     retrieveProjectsBox.style.left= "40%";
@@ -218,8 +218,7 @@ export const retrieveProjectsBox = (function() {
     closeBox.innerText="Close";
     closeBox.id="cancelProjectForm";
     closeBox.addEventListener("click",()=>{
-        switchOffOnBack();
-        removeStorageBox("retrieveProjectBox");
+        removeBox("retrieveProjectBox");
     })
 
     retrieveProjectsBox.appendChild(closeBox)
@@ -254,8 +253,6 @@ const savedProjectList = (function() {
     // find all instances of saved projects and upload them
 
     for (let i=1;i<=localStorage.length;i++) {
-        console.log(localStorage.getItem(i))
-        let allProjects = retrieveProjects.getImportedProjects();
         if (localStorage.getItem(i)) {
         let pulledProject = JSON.parse(localStorage.getItem(i));
         const retrievedTasks = {
@@ -275,8 +272,6 @@ const savedProjectList = (function() {
         savedProject.addEventListener("click",(e)=>{
             currentlySelectedSavedProject.updateSelectedSavedProject(e.target.id);
 
-
-    console.log('hello')
             savedProjectList();
         })  
         retrieveProjects.pushimportedprojects(retrievedTasks)
@@ -287,20 +282,4 @@ const clearStorage = () => {
     localStorage.clear();
 }
 
-const removeStorageBox = (function (box) {
-    console.log(box);
-    const bodyBox = document.getElementById("body");
-    const blurBackgroundBox = document.getElementById("blurBackground");
-    const form = document.getElementById(box)
-
-    while (form.hasChildNodes===true) {
-        form.removeChild(form.lastChild);
-    }
-
-    while (bodyBox.hasChildNodes===true) {
-        bodyBox.removeChild(bodyBox.lastChild);
-    }
-
-    bodyBox.removeChild(blurBackgroundBox);
-    bodyBox.removeChild(form);
-})
+export {alertBoxCannotStore}

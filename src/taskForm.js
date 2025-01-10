@@ -2,37 +2,6 @@ import { displayProjectOnScreen } from "./display-tasks-on-screen.js";
 import {NewTask, taskData} from "./formSubmit.js";
 import { currentProject } from "./new-project.js";
 
-const switchBetweenBackgroundOnOrOff = (function() {
-
-    let turnOffBackgroundFunctions=false
-
-    const backgroundSwitch = (function() {
-    if (turnOffBackgroundFunctions===false) {
-        turnOffBackgroundFunctions=true;
-
-    } else {
-        turnOffBackgroundFunctions=false;
-    }})
-
-
-    const getBackgroundVar = (function () {
-        return turnOffBackgroundFunctions
-    })
-
-    return {
-        getBackgroundVar,
-        backgroundSwitch
-    }
-})();
-
-const backgroundVar = (function () {
-    return switchBetweenBackgroundOnOrOff.getBackgroundVar();
-})
-
-const switchOffOnBack = (function () {
-    return switchBetweenBackgroundOnOrOff.backgroundSwitch();
-})
-
 const questionBox = (function () {
 
     const blurBackgroundBox = document.getElementById("body")
@@ -45,8 +14,6 @@ const questionBox = (function () {
   newContainer.style.zIndex = "1"
   newContainer.id="questions"
   blurBackgroundBox.appendChild(newContainer);
-    // create question boxes for form title, description, dueDate and priority
-
 
     const formTitle = document.createElement("div");
     formTitle.innerText="New Task";
@@ -135,8 +102,7 @@ const questionBox = (function () {
     cancelInput.innerText="Cancel";
     cancelInput.id="cancelForm";
     cancelInput.addEventListener("click",()=>{
-        removeQuestionBox();
-        switchOffOnBack();
+        removeBox("questions");
     })
 
 
@@ -200,14 +166,10 @@ const formSubmit = (function () {
     titleAlreadyExist.titleAlreadyInUse(titleEntry.value);
     let checkIfTitleExists = titleAlreadyExist.getRegister();
 
-    let taskNumber = 0;
-
     if (titleEntry.value!=="" && descEntry.value!=="" && dueEntry.value!== "" && priorityEntry.value!=="" && !checkIfTitleExists) {
         let task = new NewTask (projectName,titleEntry.value,descEntry.value,dueEntry.value,priorityEntry.value);
         taskData.pushToTasks(task);
-        removeQuestionBox();
-        switchOffOnBack();
-        console.log(taskData.getTasks())
+        removeBox("questions");
     } else if (checkIfTitleExists) {
         titleAlreadyExist.resetRegister();
         alertMessage.innerText="You must choose a unique title for your task."        
@@ -221,18 +183,17 @@ const formSubmit = (function () {
 const startUpSampleProject = (function () {
     let projectName="Default_Project";
 
-    let sampleTask = new NewTask (projectName,"Sample","This is a sample","30-12-2100","Low");
+    let sampleTask = new NewTask (projectName,"Sample","This is a sample","2100-12-01","Low");
     taskData.pushToTasks(sampleTask);
-    console.log(taskData.getTasks())
-
 });
 
-const removeQuestionBox = (function () {
-    const closeQuestionsBox = document.getElementById("questions");
+const removeBox = (function (boxId) {
+    console.log(boxId)
+    const removedBox = document.getElementById(boxId);
     const blurBack = document.getElementById("blurBackground")
-    closeQuestionsBox.classList.toggle("hidden");
-    closeQuestionsBox.classList.toggle("positionAbsolute");
+    removedBox.classList.toggle("hidden");
+    removedBox.classList.toggle("positionAbsolute");
     blurBack.classList.toggle("hidden");
 })
 
-export {questionBox, switchOffOnBack, backgroundVar, startUpSampleProject}
+export {questionBox, startUpSampleProject, removeBox}
