@@ -1,7 +1,7 @@
 import { whichThreeEndSoonest } from "./endsoon.js";
 import {taskData} from "./formSubmit.js";
 import {currentProject} from "./new-project.js";
-
+import { format } from "date-fns";
 
 const displayProjectOnScreen = (function() {
     const projectTitleVar = document.getElementById("projectTitleBox");
@@ -98,7 +98,7 @@ const fullDetailsPopUp = (function(targetid) {
     const taskTitle = document.createElement('div');
     taskTitle.innerText="Task : " + pulledTask.title;
     const taskDueDateBox = document.createElement("div");
-    taskDueDateBox.innerText="Due Date : " + pulledTask.dueDate;
+    taskDueDateBox.innerText="Due Date : " + format(new Date(pulledTask.dueDate), "PPP")
 
     const taskDescription = document.createElement("div");
     taskDescription.innerText="Description : " + pulledTask.description;
@@ -205,4 +205,4 @@ const removeDetailsBox = (function () {
     bodyBox.removeChild(taskBox)
 })
 
-export {displayProjectOnScreen}
+export {displayProjectOnScreen, fullDetailsPopUp}

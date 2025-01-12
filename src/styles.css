@@ -71,8 +71,8 @@ content {
 #endingSoonest {
     min-height: 150px;
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
+    flex-wrap: nowrap;
+    flex-direction: row;
     width:100%;
     padding: 0px;
     margin-left: 0px;

@@ -1,5 +1,7 @@
 import { compareAsc, format } from "date-fns";
 
+import {fullDetailsPopUp} from "./display-tasks-on-screen.js";
+
 const whichThreeEndSoonest = (function(tasks) {
     
     let dates = [];
