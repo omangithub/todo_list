@@ -247,9 +247,13 @@ content {
     padding: 2px
 }
 
+#fullDetailsTextId {
+    padding: 10px;
+}
+
 #detailsBox {
     width:400px;
-    height: 300px;
+    min-height: 350px;
     border: 1px solid black;
     box-shadow: 1px 5px 5px 1px black;
     display: flex;

@@ -18,7 +18,6 @@ const displayProjectOnScreen = (function() {
         buildTaskBox(item);
     }})
 
-    console.log(taskVar)
     whichThreeEndSoonest(taskVar);
 })
 
@@ -77,7 +76,7 @@ const fullDetailsPopUp = (function(targetid) {
     let taskVar = taskData.getTasks();
 
     let taskId = targetid.replace ("details", "");
-    
+
     taskVar.forEach((function(item) {
          
         if (taskId===item.title) {
@@ -95,17 +94,43 @@ const fullDetailsPopUp = (function(targetid) {
     taskDetailsBox.id="detailsBox"
     blurBackgroundBox.appendChild(taskDetailsBox);
 
+    const fullDetailsTextBox = document.createElement('div');
+    fullDetailsTextBox.innerText="Edit the details of your to-do by clicking the edit button below."
+    fullDetailsTextBox.id="fullDetailsTextId"
+
+    taskDetailsBox.appendChild(fullDetailsTextBox);
+
     const taskTitle = document.createElement('div');
     taskTitle.innerText="Task : " + pulledTask.title;
+
+    const titleEditInput = document.createElement("input");
+    titleEditInput.id = "editTitleHide"
+    titleEditInput.classList="hidden";
+
+    taskDetailsBox.appendChild(taskTitle);
+    taskDetailsBox.appendChild(titleEditInput);
+
     const taskDueDateBox = document.createElement("div");
     taskDueDateBox.innerText="Due Date : " + format(new Date(pulledTask.dueDate), "PPP")
+
+    const dueEditInput = document.createElement("input");
+    dueEditInput.id = "dueEditInputId";
+    dueEditInput.setAttribute("type", "date");
+    dueEditInput.classList="hidden";
+
+    taskDetailsBox.appendChild(taskDueDateBox);
+    taskDetailsBox.appendChild(dueEditInput);
+
 
     const taskDescription = document.createElement("div");
     taskDescription.innerText="Description : " + pulledTask.description;
 
-    taskDetailsBox.appendChild(taskTitle);
-    taskDetailsBox.appendChild(taskDueDateBox);
+    const taskDetailsEditInput = document.createElement("input");
+    taskDetailsEditInput.id = "detailsEditInputId";
+    taskDetailsEditInput.classList="hidden";
+
     taskDetailsBox.appendChild(taskDescription);
+    taskDetailsBox.appendChild(taskDetailsEditInput);
 
     const priorityTitle = document.createElement("div");
     priorityTitle.id = "PriorTitle";
@@ -160,7 +185,7 @@ const fullDetailsPopUp = (function(targetid) {
 
     const deleteToDo = document.createElement("div");
     deleteToDo.classList="twoFormButton";
-    deleteToDo.innerText="Delete ToDo";
+    deleteToDo.innerText="Delete To-do";
     deleteToDo.addEventListener("click", ()=> {
         taskData.removeTask(taskId);
         removeDetailsBox();
@@ -180,9 +205,65 @@ const fullDetailsPopUp = (function(targetid) {
         blurBack.classList.toggle("hidden");
     })
 
-
     taskDetailsBox.appendChild(closeTaskDetails);
 
+    const editTask = document.createElement("div");
+    editTask.classList="twoFormButton";
+    editTask.innerText="Edit";
+    editTask.id="editTaskId";
+    editTask.addEventListener("click",()=>{
+        let titleReturn = document.getElementById("editTitleHide")
+        let applyBut = document.getElementById("applyChangesBut")
+        let editTaskHide = document.getElementById("editTaskId")
+        let dueHide = document.getElementById("dueEditInputId")
+        let detailsHide = document.getElementById("detailsEditInputId")
+        titleReturn.classList.toggle("hidden");
+        editTaskHide.classList.toggle("hidden");
+        applyBut.classList.toggle("hidden");
+        dueHide.classList.toggle("hidden");
+        detailsHide.classList.toggle("hidden")
+
+    })
+
+    const applyTitleEditBut = document.createElement("div");
+    applyTitleEditBut.classList="twoFormButton hidden";
+    applyTitleEditBut.id="applyChangesBut";
+    applyTitleEditBut.innerText="Apply Changes";
+    applyTitleEditBut.addEventListener("click",()=>{
+    
+        let alreadyExists = false;
+
+        taskVar.forEach((item)=>{
+        if (item.title===titleEditInput.value) {
+        alreadyExists=true;
+        }});
+
+        if (alreadyExists===true) {
+            let changeText = document.getElementById("fullDetailsTextId");
+            changeText.innerText="Please enter a unique title for your to-do."
+        } else if (titleEditInput.value!=="") {
+        pulledTask.title=titleEditInput.value;
+        }
+
+        if (dueEditInput.value) {
+            pulledTask.dueDate=dueEditInput.value
+        }
+
+        if (taskDetailsEditInput.value!=="") {
+            pulledTask.description=taskDetailsEditInput.value
+        }
+
+
+
+        removeDetailsBox();
+        displayProjectOnScreen();
+        const blurBack = document.getElementById("blurBackground");
+        blurBack.classList.toggle("hidden");
+})
+
+    taskDetailsBox.appendChild(applyTitleEditBut);
+    taskDetailsBox.appendChild(editTask);
+/*
     const getPulledTask = (function() {
         return pulledTask
     })
@@ -190,7 +271,7 @@ const fullDetailsPopUp = (function(targetid) {
     return {
         getPulledTask
     }
-
+*/
 })
 
 const removeDetailsBox = (function () {
